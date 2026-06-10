@@ -89,3 +89,17 @@ p {
 .footer-text a:hover {
     text-decoration: underline;
 }
+.signup-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: transparent;
+    color: #4CAF50;
+    border: 2px solid #4CAF50;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+.signup-btn:hover {
+    background-color: #eaf7ed;
+}
