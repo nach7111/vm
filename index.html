@@ -3,322 +3,247 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Windows 10 Professional - Web Edition</title>
+    <title>Windows 10 Enterprise Architecture - Web OS Platform v2.0</title>
     <style>
-        /* Core Windows Operating System Registry Resets */
-        * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, sans-serif; }
-        body { height: 100vh; overflow: hidden; background: #0078d7; transition: background 0.3s; }
+        /* Core Windows System Architecture Controls */
+        * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif; }
+        body { height: 100vh; overflow: hidden; background: #000; color: #fff; }
 
-        /* System Variables & Themes */
+        /* Operating System System-Wide Styling Registry Variables */
         :root {
-            --taskbar-bg: #101010;
-            --start-bg: rgba(31, 31, 31, 0.97);
-            --text-color: #ffffff;
+            --accent-color: #0078d7;
+            --accent-light: #4ba3e3;
+            --taskbar-bg: rgba(16, 16, 16, 0.85);
+            --start-bg: rgba(31, 31, 31, 0.92);
             --win-bg: #ffffff;
-            --win-text: #333333;
-            --accent: #0078d7;
+            --win-text: #1a1a1a;
+            --win-border: #1c97ea;
+            --desktop-bg: radial-gradient(circle at 75% 30%, #1f518b 0%, #061830 100%);
         }
-        .dark-theme {
-            --win-bg: #202020;
-            --win-text: #ffffff;
+        .theme-dark {
+            --win-bg: #1e1e1e;
+            --win-text: #f0f0f0;
+            --win-border: #444444;
         }
 
-        /* Desktop Environment Container */
-        .desktop {
+        /* Desktop Grid Canvas Workspace Layer */
+        .desktop-canvas {
             height: calc(100vh - 40px);
-            background: radial-gradient(circle at 80% 20%, #1f518b 0%, #0a2240 100%);
+            background: var(--desktop-bg);
             background-size: cover;
             background-position: center;
             position: relative;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            align-items: flex-start;
-            flex-wrap: wrap;
+            padding: 10px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, 76px);
+            grid-template-rows: repeat(auto-fill, 80px);
+            grid-gap: 12px;
+            grid-auto-flow: column;
+            align-content: flex-start;
+            justify-content: flex-start;
         }
 
-        /* Desktop Icons styling matrix */
-        .desktop-icon {
-            width: 75px;
+        /* System Graphical Application Shortcut Blueprints */
+        .sys-shortcut {
+            width: 76px;
             height: 80px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: #ffffff;
             font-size: 11px;
             text-align: center;
-            cursor: pointer;
+            cursor: default;
             border: 1px solid transparent;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.85);
             border-radius: 2px;
+            transition: background 0.1s;
         }
-        .desktop-icon:hover { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); }
-        .desktop-icon .icon-img { font-size: 30px; margin-bottom: 4px; }
+        .sys-shortcut:hover { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); }
+        .sys-shortcut.selected { background: rgba(255, 255, 255, 0.22); border: 1px solid rgba(255, 255, 255, 0.35); }
+        .sys-shortcut .shortcut-icon { font-size: 32px; margin-bottom: 2px; height: 36px; display: flex; align-items: center; justify-content: center; }
+        .sys-shortcut .shortcut-label { width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 0 2px; }
 
-        /* Advanced OS Window Blueprint Architecture */
-        .window {
+        /* Enterprise Window Structural Pipeline Layout */
+        .os-window {
             position: absolute;
-            width: 550px;
-            height: 400px;
+            width: 620px;
+            height: 440px;
             background: var(--win-bg);
             color: var(--win-text);
-            border: 1px solid var(--accent);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            border: 1px solid var(--win-border);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.5);
             display: flex;
             flex-direction: column;
-            border-radius: 2px;
-            z-index: 10;
+            border-radius: 3px;
+            z-index: 100;
         }
-        .window-header {
+        .os-window.window-focused { box-shadow: 0 15px 40px rgba(0,0,0,0.65); border: 1px solid var(--accent-color); }
+        .os-window.window-maximized { top: 0 !important; left: 0 !important; width: 100vw !important; height: calc(100vh - 40px) !important; border: none; border-radius: 0; }
+        
+        /* Window Header Frame Configuration Elements */
+        .window-titlebar {
             background: var(--win-bg);
             height: 32px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-left: 10px;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
+            padding-left: 12px;
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+            font-size: 12px;
         }
-        .window-title { font-size: 12px; display: flex; align-items: center; gap: 6px; font-weight: 400; }
-        .window-controls { display: flex; height: 100%; }
-        .win-btn {
+        .os-window.window-focused .window-titlebar { background: var(--win-bg); }
+        .title-text-node { display: flex; align-items: center; gap: 8px; pointer-events: none; font-weight: 400; }
+        .window-action-cluster { display: flex; height: 100%; }
+        .action-node-btn {
             width: 46px;
             height: 100%;
             border: none;
             background: transparent;
-            font-size: 14px;
+            font-size: 12px;
             color: var(--win-text);
-            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
+            cursor: default;
         }
-        .win-btn:hover { background: rgba(0, 0, 0, 0.1); }
-        .win-btn.close:hover { background: #e81123 !important; color: white !important; }
+        .action-node-btn:hover { background: rgba(0, 0, 0, 0.08); }
+        .theme-dark .action-node-btn:hover { background: rgba(255, 255, 255, 0.08); }
+        .action-node-btn.close-node:hover { background: #e81123 !important; color: #ffffff !important; }
 
-        /* Window Content Frames */
-        .window-content { flex: 1; padding: 12px; overflow: auto; position: relative; }
-        .window-content iframe { width: 100%; height: 100%; border: none; }
+        /* Window Internal Workspace Context Views */
+        .window-viewport { flex: 1; padding: 0; overflow: auto; position: relative; display: flex; flex-direction: column; }
 
-        /* Native Application Frameworks Sub-CSS */
-        .notepad-txt { width: 100%; height: calc(100% - 30px); border: none; resize: none; outline: none; background: transparent; color: var(--win-text); font-family: monospace; font-size: 14px; }
-        .sys-btn { background: var(--accent); color: white; border: none; padding: 6px 12px; cursor: pointer; margin-top: 5px; font-size: 12px; }
-        .sys-btn:hover { opacity: 0.9; }
-        
-        /* Paint App Interface Elements */
-        .paint-canvas { border: 1px solid #ccc; background: white; cursor: crosshair; display: block; }
-        .paint-toolbar { display: flex; gap: 10px; margin-bottom: 8px; align-items: center; }
+        /* System Native Sub-Application Structural Layout Interfaces */
+        /* Application Architecture: Command Prompt */
+        .cmd-canvas { background: #0c0c14; color: #cccccc; font-family: 'Consolas', monospace; font-size: 14px; flex: 1; padding: 12px; overflow-y: auto; cursor: text; }
+        .cmd-line-block { display: flex; align-items: center; margin-top: 4px; }
+        .cmd-terminal-input { background: transparent; border: none; outline: none; color: #ffffff; font-family: 'Consolas', monospace; font-size: 14px; flex: 1; margin-left: 6px; }
 
-        /* Calculator Layout Array Matrix */
-        .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); grid-gap: 4px; height: calc(100% - 50px); }
-        .calc-screen { width: 100%; height: 45px; background: rgba(0,0,0,0.05); border: none; text-align: right; padding: 10px; font-size: 20px; margin-bottom: 5px; color: var(--win-text); }
-        .calc-btn { background: rgba(0,0,0,0.05); color: var(--win-text); border: none; font-size: 16px; cursor: pointer; }
-        .calc-btn:hover { background: rgba(0,0,0,0.15); }
+        /* Application Architecture: Notepad Engine */
+        .notepad-menu-strip { background: #f0f0f0; border-bottom: 1px solid #dfdfdf; padding: 3px 8px; display: flex; gap: 12px; font-size: 12px; color: #222; }
+        .notepad-menu-node { cursor: default; padding: 2px 5px; }
+        .notepad-menu-node:hover { background: #e5e5e5; }
+        .notepad-editor-canvas { width: 100%; flex: 1; border: none; resize: none; outline: none; background: var(--win-bg); color: var(--win-text); padding: 10px; font-family: 'Consolas', monospace; font-size: 14px; line-height: 1.5; }
 
-        /* Settings Dashboard Config Elements */
-        .settings-row { margin-bottom: 15px; font-size: 13px; }
-        .wallpaper-thumb { width: 60px; height: 40px; display: inline-block; margin-right: 8px; border: 2px solid transparent; cursor: pointer; background-size: cover; }
-        .wallpaper-thumb.active { border-color: var(--accent); }
+        /* Application Architecture: File Explorer Matrix Tree */
+        .explorer-scaffold { display: flex; flex: 1; height: 100%; background: var(--win-bg); }
+        .explorer-sidebar { width: 160px; border-right: 1px solid rgba(0,0,0,0.08); padding: 10px 5px; font-size: 12px; display: flex; flex-direction: column; gap: 4px; background: rgba(0,0,0,0.02); }
+        .sidebar-folder-node { padding: 4px 8px; border-radius: 2px; display: flex; align-items: center; gap: 8px; cursor: default; }
+        .sidebar-folder-node:hover, .sidebar-folder-node.active { background: rgba(0, 120, 212, 0.15); color: var(--accent-color); font-weight: 600; }
+        .explorer-grid-view { flex: 1; padding: 15px; display: grid; grid-template-columns: repeat(auto-fill, 80px); grid-gap: 15px; align-content: flex-start; }
+        .explorer-file-cell { display: flex; flex-direction: column; align-items: center; text-align: center; font-size: 11px; width: 80px; padding: 5px; border: 1px solid transparent; }
+        .explorer-file-cell:hover { background: rgba(0,120,212,0.08); border: 1px solid rgba(0,120,212,0.2); }
+        .explorer-file-cell .file-glyph { font-size: 28px; margin-bottom: 4px; }
 
-        /* Core Windows 10 Taskbar & Control Systems */
-        .taskbar {
-            height: 40px;
-            background: var(--taskbar-bg);
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 99999;
-        }
-        .taskbar-left, .taskbar-right { display: flex; height: 100%; align-items: center; }
-        
-        /* Start Button & Cortana Engine Layout */
-        .start-button { width: 48px; height: 100%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-        .start-button:hover, .taskbar-app-icon:hover { background: rgba(255, 255, 255, 0.15); }
-        .start-svg { width: 16px; height: 16px; fill: #ffffff; }
-        .start-button.active { background: rgba(255, 255, 255, 0.2); }
-        
-        .cortana-search {
-            background: #202020;
-            border: 1px solid #333;
-            height: 30px;
-            width: 200px;
-            margin-left: 5px;
-            padding: 0 10px;
-            color: white;
-            font-size: 12px;
-            outline: none;
-        }
-        .cortana-search::placeholder { color: #aaa; }
-        .taskbar-app-icon { width: 42px; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; }
+        /* Application Architecture: System Interactive Calculator Engine */
+        .calculator-housing { max-width: 320px; margin: auto; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; padding: 10px; }
+        .calculator-panel { width: 100%; background: rgba(0,0,0,0.03); border: none; color: var(--win-text); font-size: 36px; padding: 10px; text-align: right; outline: none; margin-bottom: 8px; }
+        .calculator-buttons-matrix { display: grid; grid-template-columns: repeat(4, 1fr); grid-gap: 3px; flex: 1; }
+        .calc-node-btn { background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.02); color: var(--win-text); font-size: 16px; font-weight: 400; display: flex; align-items: center; justify-content: center; cursor: default; }
+        .calc-node-btn:hover { background: rgba(0,0,0,0.12); }
+        .calc-node-btn.calc-accent-node { background: var(--accent-color); color: white; }
+        .calc-node-btn.calc-accent-node:hover { background: var(--accent-light); }
 
-        /* System Date and Notification Engine */
-        .system-tray { color: white; font-size: 11px; padding: 0 12px; text-align: right; line-height: 1.3; cursor: pointer; height: 100%; display: flex; flex-direction: column; justify-content: center; }
-        .system-tray:hover { background: rgba(255, 255, 255, 0.1); }
+        /* Application Architecture: Web Browser Edge Engine Module Frame */
+        .edge-address-navigator { height: 36px; background: #f3f3f3; border-bottom: 1px solid #dcdcdc; display: flex; align-items: center; padding: 0 8px; gap: 8px; }
+        .edge-nav-btn { font-size: 14px; padding: 2px 6px; color: #555; }
+        .edge-url-bar-input { flex: 1; background: #ffffff; border: 1px solid #cccccc; border-radius: 2px; height: 24px; padding: 0 10px; font-size: 12px; color: #333; outline: none; }
+        .edge-iframe-viewport { flex: 1; width: 100%; border: none; background: #ffffff; }
 
-        /* Windows 10 Start Menu Dashboard */
-        .start-menu {
-            position: absolute;
-            bottom: 40px; left: 0;
-            width: 620px;
-            height: 520px;
-            background: var(--start-bg);
-            backdrop-filter: blur(15px);
-            border-top: 1px solid rgba(255,255,255,0.08);
-            border-right: 1px solid rgba(255,255,255,0.08);
-            display: none;
-            z-index: 99998;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.6);
-        }
-        .start-menu.open { display: flex; }
-        
-        .start-sidebar { width: 48px; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 5px; }
-        .sidebar-item { width: 100%; height: 44px; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; font-size: 16px; }
-        .sidebar-item:hover { background: rgba(255,255,255,0.1); }
-        
-        .start-apps { width: 220px; height: 100%; padding: 10px 0; overflow-y: auto; color: white; font-size: 12px; }
-        .app-item { padding: 8px 16px; cursor: pointer; display: flex; align-items: center; gap: 12px; }
-        .app-item:hover { background: rgba(255,255,255,0.1); }
-
-        .start-tiles { flex: 1; height: 100%; padding: 15px; display: grid; grid-template-columns: repeat(3, 1fr); grid-gap: 6px; align-content: flex-start; overflow-y: auto; }
-        .tile { background: var(--accent); color: white; padding: 10px; font-size: 11px; display: flex; flex-direction: column; justify-content: flex-end; min-height: 90px; cursor: pointer; position: relative; }
-        .tile:hover { outline: 2px solid rgba(255,255,255,0.4); }
-        .tile-icon { font-size: 22px; position: absolute; top: 12px; left: 12px; }
+        /* Application Architecture: System Settings Framework Dashboard */
+        .settings-scaffold { display: flex; flex: 1; height: 100%; }
+        .settings-navigation-bar { width: 180px; background: rgba(0,0,0,0.02); border-right: 1px solid rgba(0,0,0,0.05); padding: 15px 5px; font-size: 12px; }
+        .settings-nav-item { padding: 8px 12px; cursor: default; display: flex; align-items: center; gap: 10px; border-radius: 2px; }
+        .settings-nav-item:hover { background: rgba(0,0,0,0.06); }
+        .settings-nav-item.active { border-left: 3px solid var(--accent-color); background: rgba(0,0,0,0.04); font-weight: bold; }
+        .settings-content-viewport { flex: 1; padding: 25px; }
+        .settings-header-title { font-size: 20px; font-weight: 300; margin-bottom: 20px; border-bottom: 1px solid rgba(0,0,0,0.08); padding-bottom: 8px; }
+        .settings-option-card { margin-bottom: 20px; }
+        .settings-label-node { font-size: 13px; font-weight: 600; margin-bottom: 8px; display: block; }
+        .settings-thumbnail-cluster { display: flex; gap: 12px; }
+.wallpaper-tile-node { width: 80px; height: 50px; border: 2px solid transparent; cursor: default; background-size: cover; background-position: center; border-radius: 2px; box-shadow: 0 2px 5px rgba(0,0,0,0.15); }
+.wallpaper-tile-node.active { border-color: var(--accent-color); }
+/* System Desktop Interactive Context Popwindow Right-Click Grid Menu */
+.os-context-menu {
+position: absolute;
+background: #f2f2f2;
+color: #111111;
+width: 160px;
+box-shadow: 2px 2px 10px rgba(0,0,0,0.25);
+border: 1px solid #bababa;
+padding: 4px 0;
+display: none;
+z-index: 999999;
+font-size: 12px;
+}
+.context-menu-item { padding: 6px 20px; cursor: default; display: flex; justify-content: space-between; }
+.context-menu-item:hover { background: #e5e5e5; }
+.context-menu-separator { height: 1px; background: #dfdfdf; margin: 4px 0; }
+/* Unified Windows 10 Hardware Control Taskbar Interfacing Systems */
+.os-taskbar-dock {
+height: 40px;
+background: var(--taskbar-bg);
+backdrop-filter: blur(12px);
+position: absolute;
+bottom: 0; left: 0; right: 0;
+display: flex;
+justify-content: space-between;
+align-items: center;
+z-index: 999995;
+border-top: 1px solid rgba(255,255,255,0.05);
+}
+.dock-segment-left, .dock-segment-right { display: flex; height: 100%; align-items: center; }
+/* Windows Start Menu Launcher Toggle Elements */
+.taskbar-start-trigger { width: 48px; height: 100%; display: flex; align-items: center; justify-content: center; cursor: default; transition: background 0.1s; }
+.taskbar-start-trigger:hover { background: rgba(255, 255, 255, 0.15); }
+.taskbar-start-trigger.active-trigger { background: rgba(255, 255, 255, 0.22); }
+.start-icon-vector { width: 16px; height: 16px; fill: #ffffff; }
+/* Cortana Advanced AI Taskbar Entry Component Wrapper */
+.taskbar-cortana-capsule { background: rgba(255,255,255,0.12); border: 1px solid transparent; height: 30px; width: 240px; margin: 0 6px; display: flex; align-items: center; padding: 0 10px; gap: 8px; }
+.taskbar-cortana-capsule:hover { border-color: rgba(255,255,255,0.25); background: rgba(255,255,255,0.16); }
+.cortana-glyph-icon { font-size: 13px; color: #bbb; }
+.cortana-text-field { background: transparent; border: none; outline: none; color: white; font-size: 12px; width: 100%; }
+.cortana-text-field::placeholder { color: #ccc; }
+/* Taskbar Active Program Task Node Rectangles */
+.taskbar-running-programs-tray { display: flex; height: 100%; gap: 2px; margin-left: 5px; }
+.program-task-tab { width: 44px; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 20px; position: relative; border-bottom: 2px solid transparent; transition: background 0.1s; }
+.program-task-tab:hover { background: rgba(255,255,255,0.1); }
+.program-task-tab.tab-active { background: rgba(255,255,255,0.18); border-bottom-color: var(--accent-color); }
+/* System Action Center Tray Notification & Clock Core Group */
+.taskbar-system-tray { color: #ffffff; font-size: 11px; padding: 0 12px; text-align: right; line-height: 1.3; cursor: default; height: 100%; display: flex; flex-direction: column; justify-content: center; }
+.taskbar-system-tray:hover { background: rgba(255, 255, 255, 0.12); }
+/* Windows 10 Full Ecosystem Start Menu Panel Dashboard Overlay */
+.win-start-dashboard {
+position: absolute;
+bottom: 40px; left: 0;
+width: 640px;
+height: 560px;
+background: var(--start-bg);
+backdrop-filter: blur(20px);
+border-top: 1px solid rgba(255,255,255,0.06);
+border-right: 1px solid rgba(255,255,255,0.06);
+display: none;
+z-index: 999990;
+box-shadow: 3px 5px 25px rgba(0,0,0,0.65);
+}
+.win-start-dashboard.menu-visible { display: flex; }
+.start-system-rail { width: 48px; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 8px; }
+.rail-action-node { width: 100%; height: 44px; display: flex; align-items: center; justify-content: center; color: white; font-size: 16px; cursor: default; }
+.rail-action-node:hover { background: rgba(255,255,255,0.12); }
+.start-program-directory { width: 240px; height: 100%; padding: 12px 0; overflow-y: auto; color: white; font-size: 12.5px; border-right: 1px solid rgba(255,255,255,0.04); }
+.directory-app-row { padding: 7px 20px; cursor: default; display: flex; align-items: center; gap: 14px; }
+.directory-app-row:hover { background: rgba(255,255,255,0.08); }
+.directory-app-row .app-icon-glyph { font-size: 16px; width: 20px; text-align: center; }
+.start-tile-ecosystem { flex: 1; height: 100%; padding: 15px; display: grid; grid-template-columns: repeat(3, 1fr); grid-gap: 6px; align-content: flex-start; overflow-y: auto; }
+.start-tile-node { background: var(--accent-color); color: white; padding: 12px; font-size: 11px; display: flex; flex-direction: column; justify-content: flex-end; min-height: 94px; position: relative; border: 1px solid transparent; }
+.start-tile-node:hover { border-color: rgba(255,255,255,0.4); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.2); }
+.tile-vector-glyph { font-size: 26px; position: absolute; top: 12px; left: 12px; }
+/* Notification Infrastructure Engine Alerts */
+.toast-notification-center { position: absolute; bottom: 50px; right: 15px; width: 340px; display: flex; flex-direction: column; gap: 10px; z-index: 9999999; }
+.toast-alert-card { background: rgba(30, 30, 30, 0.9); border-left: 4px solid var(--accent-color); border-radius: 2px; color: white; padding: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); display: flex; flex-direction: column; gap: 4px; animation: slideInAlert 0.25s ease-out; }
+.toast-alert-header { font-size: 12px; font-weight: bold; color: var(--accent-color); display: flex; justify-content: space-between; }
+.toast-alert-body { font-size: 12px; color: #ddd; }
+@keyframes slideInAlert { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
     </style>
-</head>
-<body id="sysBody">
-
-    <!-- Desktop Active Layer Context -->
-    <div class="desktop" id="desktop">
-        <div class="desktop-icon" onclick="openWindow('This PC', '🖥️', 'this-pc')">
-            <div class="icon-img">🖥️</div>
-            <div>This PC</div>
-        </div>
-        <div class="desktop-icon" onclick="openWindow('Notepad File Explorer', '📝', 'notepad')">
-            <div class="icon-img">📝</div>
-            <div>Notepad</div>
-        </div>
-        <div class="desktop-icon" onclick="openWindow('System Calculator', '🧮', 'calc')">
-            <div class="icon-img">🧮</div>
-            <div>Calculator</div>
-        </div>
-        <div class="desktop-icon" onclick="openWindow('MS Paint Studio', '🎨', 'paint')">
-            <div class="icon-img">🎨</div>
-            <div>MS Paint</div>
-        </div>
-        <div class="desktop-icon" onclick="openWindow('Control Settings', '⚙️', 'settings')">
-            <div class="icon-img">⚙️</div>
-            <div>Settings</div>
-        </div>
-        <div class="desktop-icon" onclick="openWindow('Bing Browser Edge', '🌐', 'browser')">
-            <div class="icon-img">🌐</div>
-            <div>Microsoft Edge</div>
-        </div>
-
-    </div>
-   <!-- Start Menu -->
-    <div class="start-menu" id="startMenu">
-        <div class="start-sidebar">
-            <div class="sidebar-item" title="User">👤</div>
-            <div class="sidebar-item" title="Settings">⚙️</div>
-            <div class="sidebar-item" onclick="location.reload()" title="Power">⏻</div>
-        </div>
-        <div class="start-apps">
-            <div class="app-item" onclick="toggleStart(); openWindow('This PC', '💾', 'system-pc')">🖥️ This PC</div>
-            <div class="app-item" onclick="toggleStart(); openWindow('Bing Browser', '🌐', 'browser')">🌐 Bing Browser</div>
-            <div class="app-item" onclick="toggleStart(); openWindow('Recycle Bin', '🗑️', 'trash')">🗑️ Recycle Bin</div>
-        </div>
-        <div class="start-tiles">
-            <div class="tile" onclick="toggleStart(); openWindow('Bing Browser', '🌐', 'browser')">
-                <span class="tile-icon">🌐</span><span>Bing Browser</span>
-            </div>
-            <div class="tile" style="background: #2b579a;">
-                <span class="tile-icon">📅</span><span>Calendar</span>
-            </div>
-            <div class="tile" style="background: #b91d47;">
-                <span class="tile-icon">❤️</span><span>Health</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Taskbar Layer -->
-    <div class="taskbar">
-        <div class="taskbar-left">
-            <div class="start-button" id="startBtn" onclick="toggleStart()">
-                <svg class="start-svg" viewBox="0 0 24 24">
-                    <path d="M0 3.449L9.75 2.1v9.45H0V3.449zM0 12.45h9.75v9.45L0 20.551v-8.1zM10.8 1.95L24 0v11.55H10.8V1.95zM10.8 12.45H24v11.55l-13.2-1.95v-9.6z"/>
-                </svg>
-            </div>
-        </div>
-        <div class="taskbar-right">
-            <div class="system-tray">
-                <div id="tray-time">12:00 PM</div>
-                <div id="tray-date">10/06/2026</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Core Desktop OS Engine Logic -->
-    <script>
-        let highestZ = 10;
-
-        // Toggles the Start Menu Open/Closed
-        function toggleStart() {
-            const menu = document.getElementById('startMenu');
-            const btn = document.getElementById('startBtn');
-            menu.classList.toggle('open');
-            btn.classList.toggle('active');
-        }
-
-        // Closes Start Menu if clicking outside of it
-        document.addEventListener('click', function(e) {
-            const menu = document.getElementById('startMenu');
-            const btn = document.getElementById('startBtn');
-            if (!menu.contains(e.target) && !btn.contains(e.target)) {
-                menu.classList.remove('open');
-                btn.classList.remove('active');
-            }
-        });
-
-        // App View Generator Factory
-        function openWindow(title, emoji, contextType) {
-            highestZ++;
-            // Simple view HTML to avoid multiline template literals
-            let viewHtml = '<div style="font-size:13px; color:#333; padding:5px;">' +
-                '<div style="font-weight:600; margin-bottom:6px;">' + emoji + ' ' + title + '</div>' +
-                '<div>Welcome to the virtual machine window.</div>' +
-                '</div>';
-
-            const win = document.createElement('div');
-            win.className = 'window';
-            win.style.left = (50 + Math.random() * 200) + 'px';
-            win.style.top = (50 + Math.random() * 120) + 'px';
-            win.style.zIndex = highestZ;
-            win.innerHTML = '<div class="window-header"> <div class="window-title"><span>' + emoji + '</span> ' + title + '</div> <div class="window-controls"> <button class="win-btn" onclick="this.closest(\'.window\').style.display=\'none\'">—</button> <button class="win-btn close" onclick="this.closest(\'.window\').remove()">✕</button> </div> </div> <div class="window-content">' + viewHtml + '</div>';
-            document.getElementById('desktop').appendChild(win);
-            makeDraggable(win);
-            win.addEventListener('mousedown', () => {
-                highestZ++;
-                win.style.zIndex = highestZ;
-            });
-        }
-
-        // Window dragging helper
-        function updateClock() {
-            const now = new Date();
-            let hours = now.getHours();
-            let minutes = now.getMinutes();
-            const ampm = hours >= 12 ? 'PM' : 'AM';
-            hours = hours % 12;
-            hours = hours ? hours : 12;
-            minutes = minutes < 10 ? '0'+minutes : minutes;
-            document.getElementById('tray-time').textContent = hours + ':' + minutes + ' ' + ampm;
-            document.getElementById('tray-date').textContent = (now.getMonth()+1) + '/' + now.getDate() + '/' + now.getFullYear();
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
-    </script>
-</body>
-</html>
